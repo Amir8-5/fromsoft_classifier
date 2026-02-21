@@ -1,7 +1,8 @@
 import json
 import logging
 
-import redis.asyncio as redis
+import redis.asyncio as aioredis
+from redis.exceptions import ConnectionError as RedisConnectionError
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ _CACHE_TTL_SECONDS = 86400  # 24 hours
 
 class CacheService:
     def __init__(self):
-        self.redis = redis.from_url(
+        self.redis = aioredis.from_url(
             "redis://localhost:6379",
             decode_responses=True,
         )
@@ -26,7 +27,7 @@ class CacheService:
             if raw is not None:
                 return json.loads(raw)
             return None
-        except redis.exceptions.ConnectionError:
+        except RedisConnectionError:
             logger.warning("Redis unavailable — skipping cache read, proceeding to inference.")
             return None
 
@@ -38,5 +39,5 @@ class CacheService:
         """
         try:
             await self.redis.set(image_hash, json.dumps(prediction), ex=_CACHE_TTL_SECONDS)
-        except redis.exceptions.ConnectionError:
+        except RedisConnectionError:
             logger.warning("Redis unavailable — prediction result will not be cached.")

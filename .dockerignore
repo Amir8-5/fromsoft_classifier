@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+dataset/
+*.ipynb
+frontend/
+.git/
+*.pth
+*.pt
+*.ckpt
+confusion_matrix.png

@@ -1,7 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-bb-bg: #040605;
+  --color-bb-panel: #131919;
+  --color-bb-border: #242F35;
+  --color-bb-accent: #1B353F;
+  --color-bb-gold: #948161;
+  --color-bb-text: #989A8F;
+  --font-family-serif: "Inria Serif", serif;
+}
 
 body {
-  @apply bg-bb-bg text-bb-text font-serif m-0 p-0 min-h-screen;
+  background-color: var(--color-bb-bg);
+  color: var(--color-bb-text);
+  font-family: var(--font-family-serif);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
