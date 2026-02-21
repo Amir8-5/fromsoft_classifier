@@ -1,0 +1,58 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ── Environment variables ─────────────────────────────────────────────────────
+.env
+.env.*
+
+# ── Dataset & raw data ────────────────────────────────────────────────────────
+# The full dataset is large and reproducible via prepare_dataset.py
+dataset/
+data/
+downloads/
+
+# ── ML model artifacts ────────────────────────────────────────────────────────
+# Checkpoints can be hundreds of MB — store in cloud storage / DVC instead
+*.pth
+*.pt
+*.ckpt
+
+# ── Generated outputs ─────────────────────────────────────────────────────────
+confusion_matrix.png
+output/
+
+# ── Jupyter / IPython ─────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── IDE & editor ──────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS noise ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Frontend (Vite / React) ───────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/logs/
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*

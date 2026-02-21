@@ -1,0 +1,14 @@
+kagglehub
+python-dotenv
+scikit-learn
+numpy
+torch
+torchvision
+matplotlib
+seaborn
+fastapi
+uvicorn[standard]
+python-multipart
+redis
+slowapi
+pydantic
