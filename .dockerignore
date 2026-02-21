@@ -7,7 +7,5 @@ dataset/
 *.ipynb
 frontend/
 .git/
-*.pth
-*.pt
-*.ckpt
 confusion_matrix.png
+
