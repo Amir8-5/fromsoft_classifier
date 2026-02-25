@@ -58,7 +58,7 @@ app.add_middleware(
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=False,
     allow_methods=["POST", "GET"],   
-    allow_headers=["Content-Type"],  
+    allow_headers=["Content-Type", "Accept"],  
 )
 
 # Exception Handlers 
