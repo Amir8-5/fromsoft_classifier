@@ -13,11 +13,11 @@ from core.exceptions import FileTooLargeError, InvalidFileTypeError, ModelNotRea
 from services.cache_service import CacheService
 from services.model_service import ModelService
 
-# ── Rate Limiter ──────────────────────────────────────────────────────────────
+# Rate Limiter 
 limiter = Limiter(key_func=get_remote_address)
 
 
-# ── Lifespan ──────────────────────────────────────────────────────────────────
+# Lifespan 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup: load model + connect cache. Shutdown: close Redis."""
@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
     await app.state.cache_service.redis.aclose()
 
 
-# ── App ───────────────────────────────────────────────────────────────────────
+# App 
 app = FastAPI(
     title="FromSoftware Classifier API",
     description="Inference endpoint for game screenshots.",
@@ -47,16 +47,21 @@ app = FastAPI(
 # Attach limiter
 app.state.limiter = limiter
 
-# CORS
+# CORS 
+ALLOWED_ORIGINS = [
+    "https://amir8-5-fromsoft-classifier.hf.space",  
+    "https://fromsoft-frontend-dhjwq1mjm-amirs-projects-746b7e66.vercel.app",           
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=False,
+    allow_methods=["POST", "GET"],   
+    allow_headers=["Content-Type"],  
 )
 
-# ── Exception Handlers ────────────────────────────────────────────────────────
+# Exception Handlers 
 @app.exception_handler(FileTooLargeError)
 async def file_too_large_handler(request: Request, exc: FileTooLargeError):
     return JSONResponse(
@@ -83,10 +88,10 @@ async def model_not_ready_handler(request: Request, exc: ModelNotReadyError):
 
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# ── Routers ───────────────────────────────────────────────────────────────────
+# Routers 
 app.include_router(predict.router, prefix="/api/v1")
 
-# ── Lifecycle Probes ──────────────────────────────────────────────────────────
+# Lifecycle Probes 
 @app.get("/health", tags=["probes"])
 def health():
     """Liveness probe — confirms the server process is running."""
@@ -99,6 +104,6 @@ def ready(request: Request):
     return {"model_loaded": getattr(request.app.state, "model_loaded", False)}
 
 
-# ── Entry Point ───────────────────────────────────────────────────────────────
+# Entry Point 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
